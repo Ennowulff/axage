@@ -33,4 +33,6 @@ LOOK <object>     Have a closer look at the object in the room or in your invent
 TAKE <object>     Take object in the room
 DROP <object>     Drop an object that you carry
 OPEN <object>     Open something that is in the room
+
+ASK <person>      Ask a person to talk to you
 ```
