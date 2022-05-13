@@ -224,7 +224,19 @@ CLASS actor DEFINITION INHERITING FROM thing.
     METHODS set_location
       IMPORTING
         room TYPE REF TO room.
+    METHODS get_location
+      RETURNING
+        VALUE(room) TYPE REF TO room.
+    METHODS speak
+      RETURNING
+        VALUE(sentences) TYPE string_table.
+    METHODS add_sentences
+      IMPORTING
+        sentences TYPE string_table.
+
   PRIVATE SECTION.
+    DATA my_sentences TYPE string_table.
+
 ENDCLASS.
 
 CLASS map DEFINITION.
@@ -239,7 +251,7 @@ CLASS map DEFINITION.
         VALUE(room) TYPE REF TO room.
     METHODS set_floor_plan
       IMPORTING
-        plan type string_table.
+        input TYPE string_table.
     METHODS show
       RETURNING
         VALUE(result) TYPE string_table.
@@ -247,7 +259,7 @@ CLASS map DEFINITION.
 
     TYPES _map TYPE STANDARD TABLE OF REF TO room.
     DATA map TYPE _map.
-    data floor_plan type string_table.
+    DATA floor_plan TYPE string_table.
 
 ENDCLASS.
 
@@ -266,8 +278,8 @@ CLASS map IMPLEMENTATION.
     ENDIF.
   ENDMETHOD.
 
-  method set_floor_plan.
-    me->floor_plan = floor_plan.
+  METHOD set_floor_plan.
+    me->floor_plan = input.
   ENDMETHOD.
 
   METHOD show.
@@ -318,4 +330,15 @@ CLASS actor IMPLEMENTATION.
     location = room.
   ENDMETHOD.
 
+  METHOD get_location.
+    room = location.
+  ENDMETHOD.
+
+  METHOD speak.
+    sentences = my_sentences.
+  ENDMETHOD.
+
+  METHOD add_sentences.
+    my_sentences = sentences.
+  ENDMETHOD.
 ENDCLASS.

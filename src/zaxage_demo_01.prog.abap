@@ -12,8 +12,8 @@ REPORT zaxage_demo_01 NO STANDARD PAGE HEADING.
 " - Main game class should only have the definitions of map, actors
 "
 
-INCLUDE ZAXAGE_GAME_ENGINE.
-*INCLUDE zabapventure_class.
+INCLUDE zaxage_game_engine.
+
 
 
 
@@ -39,9 +39,10 @@ CLASS main DEFINITION.
         VALUE(result) TYPE string.
   PRIVATE SECTION.
     DATA player TYPE REF TO actor.
-    data bill_developer type REF TO actor.
-    data mark_consultant type ref to actor.
+    DATA bill_developer TYPE REF TO actor.
+    DATA mark_consultant TYPE REF TO actor.
     DATA map TYPE REF TO map.
+    DATA actors TYPE REF TO thinglist.
 
     DATA container TYPE REF TO cl_gui_container.
     DATA inventory_container TYPE REF TO cl_gui_container.
@@ -87,7 +88,7 @@ CLASS main IMPLEMENTATION.
     map->add_room( entrance ).
     map->add_room( developer ).
     map->add_room( consulting ).
-    map->set_floor_plan( value #(
+    map->set_floor_plan( VALUE #(
       ( `+--------------------+ +--------------------+` )
       ( `|                    | |                    |` )
       ( `|                    | |                    |` )
@@ -131,17 +132,25 @@ CLASS main IMPLEMENTATION.
     player = NEW #( name = 'PLAYER' descr = 'player name' ).
     player->set_location( entrance ).
 
-    bill_developer = new #( name = 'Bill' descr = 'An ABAP developer' ).
+    bill_developer = NEW #( name = 'Bill' descr = 'An ABAP developer' ).
     bill_developer->set_location( developer ).
+    bill_developer->add_sentences( VALUE #(
+      ( |Hey, I am Bill, an experienced ABAP developer.| )
+      ( |If you have programming tasks for me, you can pass the requirement to me| ) ) ).
 
-    mark_consultant = new #( name = 'Mark' descr = 'A sales consultant' ).
+    mark_consultant = NEW #( name = 'Mark' descr = 'An SAP consultant' ).
     mark_consultant->set_location( consulting ).
+    mark_consultant->add_sentences( VALUE #(
+      ( |Hello, My name is Mark and I am an SAP consultant| )
+      ( |You can ask me anything about SAP processes.| ) ) ).
+    actors = NEW #( ).
+    actors->add( bill_developer ).
+    actors->add( mark_consultant ).
 
   ENDMETHOD.
 
   METHOD interprete.
     DATA cmd TYPE c LENGTH 100.
-*    DATA(cr) = cl_abap_char_utilities=>cr_lf.
 
     result = NEW #(  ).
 
@@ -199,7 +208,8 @@ CLASS main IMPLEMENTATION.
         result->add( |TAKE <object>     Take object in the room| ).
         result->add( |DROP <object>     Drop an object that you carry| ).
         result->add( |OPEN <object>     Open something that is in the room| ).
-
+        result->add( || ).
+        result->add( |ASK <person>      Ask a person to tell you something| ).
 
 
       WHEN 'LOOK'.
@@ -271,6 +281,31 @@ CLASS main IMPLEMENTATION.
             result->add( |{ thing->name } cannot be opened!| ).
           ENDIF.
         ENDIF.
+      WHEN 'ASK'.
+        DATA actors_in_the_room TYPE STANDARD TABLE OF REF TO actor.
+        DATA actor TYPE REF TO actor.
+        LOOP AT actors->get_list( ) INTO thing.
+          actor ?= thing.
+          IF actor->get_location( ) = player->location.
+            APPEND actor TO actors_in_the_room.
+          ENDIF.
+        ENDLOOP.
+
+        IF actors_in_the_room IS INITIAL.
+          result->add( 'There is no one here to ask...' ).
+        ELSE.
+          IF cmd2 IS INITIAL.
+            result->add( 'Whom do you want to ask?' ).
+          ELSE.
+            LOOP AT actors_in_the_room INTO actor.
+              IF to_upper( actor->name ) = cmd2.
+                result->addtab( actor->speak( ) ).
+              ELSE.
+                result->add( |You cannot ask { cmd2 }| ).
+              ENDIF.
+            ENDLOOP.
+          ENDIF.
+        ENDIF.
 
       WHEN OTHERS.
         result->add( 'You cannot do that' ).
@@ -317,6 +352,13 @@ CLASS main IMPLEMENTATION.
   METHOD cmd_look.
 
     IF cmd2 IS INITIAL.
+      DATA actor TYPE REF TO actor.
+      LOOP AT actors->get_list( ) INTO DATA(thing).
+        actor ?= thing.
+        IF actor->get_location( ) = player->location.
+          result->add( |There is { actor->name }, { actor->description }| ).
+        ENDIF.
+      ENDLOOP.
 
       IF player->location->things->get_list( ) IS INITIAL.
         result->add( 'There is nothing interesting to see...' ).
