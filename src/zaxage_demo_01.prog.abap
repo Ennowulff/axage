@@ -277,10 +277,13 @@ CLASS main IMPLEMENTATION.
               result->addtab( finds ).
               player->things->add( content ).
             ENDIF.
-          ELSE.
+          ELSEif thing is bound.
             result->add( |{ thing->name } cannot be opened!| ).
+          else.
+            result->add( |You cannot open { cmd2 }| ).
           ENDIF.
         ENDIF.
+
       WHEN 'ASK'.
         DATA actors_in_the_room TYPE STANDARD TABLE OF REF TO actor.
         DATA actor TYPE REF TO actor.
