@@ -36,3 +36,42 @@ OPEN <object>     Open something that is in the room
 
 ASK <person>      Ask a person to talk to you
 ```
+
+# class diagram
+
+https://mermaid-js.github.io/mermaid/#/classDiagram
+    
+
+```mermaid
+classDiagram
+  thing <|-- openable_thing
+  thing <|-- room
+  
+  class thing{ 
+    +name
+    +description 
+    +constructor()
+    }
+    
+  class openable_thing{ 
+    +needed 
+    +content
+    +constructor
+    +get_content()
+    +open()
+    +is_open()
+    }
+    
+  class room{
+    +north
+    +east
+    +south
+    +west
+    +things: thing
+    +constructor()
+    +class_constructor()
+    +set_exits()
+    #set_exit()
+   
+  }
+```
