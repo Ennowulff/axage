@@ -4,6 +4,7 @@ CLASS zcl_axage_engine DEFINITION
   CREATE PUBLIC .
 
   PUBLIC SECTION.
+  INTERFACES if_serializable_object.
     METHODS constructor.
     METHODS interprete
       IMPORTING

@@ -3,6 +3,7 @@ CLASS zcl_axage_thing_list DEFINITION
   CREATE PUBLIC .
 
   PUBLIC SECTION.
+    INTERFACES if_serializable_object.
     TYPES _things TYPE STANDARD TABLE OF REF TO zcl_axage_thing WITH EMPTY KEY.
     METHODS constructor
       IMPORTING

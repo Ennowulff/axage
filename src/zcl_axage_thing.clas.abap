@@ -3,6 +3,7 @@ CLASS zcl_axage_thing DEFINITION
   CREATE PUBLIC .
 
   PUBLIC SECTION.
+    INTERFACES if_serializable_object.
     DATA name TYPE string.
     DATA description TYPE string.
 

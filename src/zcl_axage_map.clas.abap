@@ -4,6 +4,7 @@ CLASS zcl_axage_map DEFINITION
   CREATE PUBLIC .
 
   PUBLIC SECTION.
+    INTERFACES if_serializable_object.
     METHODS add_room
       IMPORTING
         room TYPE REF TO zcl_axage_room.
