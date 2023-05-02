@@ -13,8 +13,9 @@ CLASS zcl_axage_demo1 DEFINITION
     DATA engine TYPE REF TO zcl_axage_engine.
     METHODS interprete
       IMPORTING
-        command TYPE clike
-        out     TYPE REF TO if_oo_adt_classrun_out.
+        command       TYPE clike
+      RETURNING
+        VALUE(result) TYPE REF TO zcl_axage_result.
 ENDCLASS.
 
 
@@ -91,9 +92,9 @@ CLASS zcl_axage_demo1 IMPLEMENTATION.
   METHOD if_oo_adt_classrun~main.
 
     "Add Your Commands Here:
-    interprete( command = 'HELP' out = out ).
-    interprete( command = 'EAST' out = out ).
-    interprete( command = 'TAKE KNIFE' out = out ).
+    out->write( interprete( 'HELP'  )->get(  ) ).
+    out->write( interprete( 'EAST'  )->get(  ) ).
+    out->write( interprete( 'TAKE KNIFE' )->get(  ) ).
 
     IF engine->player->location->things->exists( 'RFC' ).
       engine->mission_completed = abap_true.
@@ -102,10 +103,9 @@ CLASS zcl_axage_demo1 IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD interprete.
-    DATA(result) = engine->interprete( command ).
+    result = engine->interprete( command ).
     result->add( |You are in the { engine->player->location->name }.| ).
-    out->write( result->get( ) ).
-    out->write( engine->get_inventory( )->get( ) ).
+    result->add( engine->get_inventory( )->get(  ) ).
   ENDMETHOD.
 
 ENDCLASS.
