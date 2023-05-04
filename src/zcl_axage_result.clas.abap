@@ -29,7 +29,7 @@ CLASS zcl_axage_result IMPLEMENTATION.
 
   METHOD get.
     LOOP AT text REFERENCE INTO DATA(line).
-      textstring &&= line->* && cl_abap_char_utilities=>cr_lf.
+      textstring = textstring && line->* && cl_abap_char_utilities=>cr_lf.
     ENDLOOP.
   ENDMETHOD.
 
