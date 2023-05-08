@@ -55,7 +55,7 @@ CLASS zcl_axage_engine IMPLEMENTATION.
         result->addTab( map->show( ) ).
 
       WHEN 'N' OR 'NORTH'.
-        IF player->location->north = zcl_axage_room=>no_exit.
+        IF player->location->north->name = zcl_axage_room=>no_exit->name.
           result->add( 'you cannot go there.' ).
         ELSE.
           player->set_location( player->location->north ).
@@ -63,7 +63,7 @@ CLASS zcl_axage_engine IMPLEMENTATION.
         cmd_look( result ).
 
       WHEN 'S' OR 'SOUTH'.
-        IF player->location->south = zcl_axage_room=>no_exit.
+        IF player->location->south->name = zcl_axage_room=>no_exit->name.
           result->add( 'you cannot go there.' ).
         ELSE.
           player->set_location( player->location->south ).
@@ -71,7 +71,7 @@ CLASS zcl_axage_engine IMPLEMENTATION.
         cmd_look( result ).
 
       WHEN 'E' OR 'EAST'.
-        IF player->location->east = zcl_axage_room=>no_exit.
+        IF player->location->east->name = zcl_axage_room=>no_exit->name.
           result->add( 'you cannot go there.' ).
         ELSE.
           player->set_location( player->location->east ).
@@ -79,7 +79,7 @@ CLASS zcl_axage_engine IMPLEMENTATION.
         cmd_look( result ).
 
       WHEN 'W' OR 'WEST'.
-        IF player->location->west = zcl_axage_room=>no_exit.
+        IF player->location->west->name = zcl_axage_room=>no_exit->name.
           result->add( 'you cannot go there.' ).
         ELSE.
           player->set_location( player->location->west ).
@@ -253,16 +253,16 @@ CLASS zcl_axage_engine IMPLEMENTATION.
         result->addtab( player->location->things->show( ) ).
       ENDIF.
 
-      IF player->location->east <> zcl_axage_room=>no_exit.
+      IF player->location->east->name <> zcl_axage_room=>no_exit->name.
         result->add( 'There is a door on the east side' ).
       ENDIF.
-      IF player->location->west <> zcl_axage_room=>no_exit.
+      IF player->location->west->name <> zcl_axage_room=>no_exit->name.
         result->add( 'There is a door on the west side' ).
       ENDIF.
-      IF player->location->north <> zcl_axage_room=>no_exit.
+      IF player->location->north->name <> zcl_axage_room=>no_exit->name.
         result->add( 'There is a door on the north side' ).
       ENDIF.
-      IF player->location->south <> zcl_axage_room=>no_exit.
+      IF player->location->south->name <> zcl_axage_room=>no_exit->name.
         result->add( 'There is a door on the south side' ).
       ENDIF.
 
