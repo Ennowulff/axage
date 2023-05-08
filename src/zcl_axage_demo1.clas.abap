@@ -93,6 +93,7 @@ CLASS zcl_axage_demo1 IMPLEMENTATION.
 
     "Add Your Commands Here:
     out->write( interprete( 'HELP'  )->get(  ) ).
+    out->write( interprete( 'NORTH'  )->get(  ) ).
     out->write( interprete( 'EAST'  )->get(  ) ).
     out->write( interprete( 'TAKE KNIFE' )->get(  ) ).
 
