@@ -153,7 +153,8 @@ CLASS main IMPLEMENTATION.
     result->add( |You are in the { engine->player->location->name }.| ). " { player->location->description }|.
     text->set_textstream( result->get( ) ).
 
-    IF engine->player->location->things->exists( 'RFC' ).
+    IF engine->player->location = bill_developer->location AND
+       engine->player->location->things->exists( 'RFC' ).
       engine->mission_completed = abap_true.
     ENDIF.
 

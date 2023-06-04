@@ -97,7 +97,8 @@ CLASS zcl_axage_demo1 IMPLEMENTATION.
     out->write( interprete( 'EAST'  )->get(  ) ).
     out->write( interprete( 'TAKE KNIFE' )->get(  ) ).
 
-    IF engine->player->location->things->exists( 'RFC' ).
+    IF engine->player->location = bill_developer->location AND
+       engine->player->location->things->exists( 'RFC' ).
       engine->mission_completed = abap_true.
       out->write( 'Congratulations! You delivered the RFC to the developers!' ).
     ENDIF.
