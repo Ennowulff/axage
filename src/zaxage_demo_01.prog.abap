@@ -72,14 +72,14 @@ CLASS main IMPLEMENTATION.
 
     engine = NEW #( ).
 
-    DATA(entrance)   = NEW room( 
-      name = 'Entrance' 
+    DATA(entrance)   = NEW room(
+      name = 'Entrance'
       descr = 'You are in the entrance area. Welcome.' ).
-    DATA(developer)  = NEW room( 
-      name = 'Developers office' 
+    DATA(developer)  = NEW room(
+      name = 'Developers office'
       descr = 'The developers area. be quiet!' ).
-    DATA(consulting) = NEW room( 
-      name = 'Consulting Department' 
+    DATA(consulting) = NEW room(
+      name = 'Consulting Department'
       descr = 'This is the area where the consultants work. Bring coffee!' ).
 
     engine->map->add_room( entrance ).
@@ -153,7 +153,8 @@ CLASS main IMPLEMENTATION.
     result->add( |You are in the { engine->player->location->name }.| ). " { player->location->description }|.
     text->set_textstream( result->get( ) ).
 
-    IF engine->player->location->things->exists( 'RFC' ).
+    IF engine->player->location = bill_developer->location AND
+       engine->player->location->things->exists( 'RFC' ).
       engine->mission_completed = abap_true.
     ENDIF.
 
