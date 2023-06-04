@@ -72,14 +72,14 @@ CLASS main IMPLEMENTATION.
 
     engine = NEW #( ).
 
-    DATA(entrance)   = NEW room(
-      name = 'Entrance'
+    DATA(entrance)   = NEW room( 
+      name = 'Entrance' 
       descr = 'You are in the entrance area. Welcome.' ).
-    DATA(developer)  = NEW room(
-      name = 'Developers office'
+    DATA(developer)  = NEW room( 
+      name = 'Developers office' 
       descr = 'The developers area. be quiet!' ).
-    DATA(consulting) = NEW room(
-      name = 'Consulting Department'
+    DATA(consulting) = NEW room( 
+      name = 'Consulting Department' 
       descr = 'This is the area where the consultants work. Bring coffee!' ).
 
     engine->map->add_room( entrance ).
